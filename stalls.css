@@ -1,0 +1,386 @@
+/* Reset & Font */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background: #f9f9f9;
+}
+
+/* Header */
+.menu-header {
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.back-arrow {
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.stall-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.stall-info .stall-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.info-text h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.info-text p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.details span {
+    margin-right: 15px;
+    font-size: 13px;
+    color: #888;
+}
+
+/* Popout Box */
+.popout {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.popout-content {
+    background: #fff;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    border-radius: 10px;
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.popout-content img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.popout-content .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* Container */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Menu Section */
+.menu {
+    flex: 2;
+    min-width: 300px;
+}
+
+.menu h2 {
+    margin-bottom: 15px;
+    font-size: 26px;
+    color: #333;
+}
+
+.menu-category h3 {
+    margin: 20px 0 10px 0;
+    font-size: 20px;
+    color: #f5b85c;
+    border-bottom: 2px solid #f5b85c;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Menu Item Card */
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.menu-item img {
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Item Info */
+.item-info h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.item-info p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.item-info .price {
+    font-weight: bold;
+    color: #f5b85c;
+}
+
+/* Item Action Buttons */
+.item-action {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.item-action button {
+    background: #f5b85c;
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.item-action button:hover {
+    background: #e0a742;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-controls input {
+    width: 35px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+    font-weight: bold;
+}
+
+/* Desktop Order Summary */
+.order-summary {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* top-align items */
+    gap: 10px; /* small space between items */
+    position: sticky;
+    top: 20px;
+    align-self: flex-start; /* shrink to content width */
+    max-height: calc(100vh - 40px); /* prevent overflow beyond screen */
+}
+
+/* Place Order Button always at bottom of sidebar */
+.order-summary .place-order-btn {
+    margin-top: 10px; /* small space from last item */
+    align-self: stretch; /* full width button */
+}
+
+@media screen and (min-width: 769px) {
+    .order-summary {
+        display: none; /* hidden by default on desktop */
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+    }
+
+    .order-summary.active {
+        display: flex; /* show when cart has items */
+    }
+
+    .order-summary .place-order-btn {
+        margin-top: 10px;
+        align-self: stretch;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .order-summary {
+        position: fixed;       /* stick to screen */
+        bottom: 0;             /* bottom of screen */
+        left: 0;
+        width: 100%;
+        padding: 10px 15px;
+        border-radius: 0;
+        background: #fff;
+        box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transform: translateY(100%);  /* hide initially */
+        transition: transform 0.3s ease;
+        z-index: 999;
+        max-height: 80vh;
+        flex: none;            /* prevent flex-grow from desktop */
+        top: auto;             /* remove any sticky top */
+        align-self: auto;      /* remove desktop alignment */
+    }
+
+    .order-summary.active {
+        transform: translateY(0);  /* slide up */
+    }
+
+    .order-summary .place-order-btn {
+        margin-top: 5px;
+        align-self: stretch;
+    }
+}
+
+
+
+/* Order Items inside sidebar */
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #f5b85c;
+}
+
+/* Student Info & Payment */
+.student-info input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.payment-method button {
+    width: 48%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #f5b85c;
+    background: #fff;
+    color: #f5b85c;
+    cursor: pointer;
+}
+
+.payment-method button:hover {
+    background: #f5b85c;
+    color: #fff;
+}
+
+.place-order {
+    background: #f5b85c;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+}
+
+.place-order:hover {
+    background: #e0a742;
+}
+
+/* Popup overlay (center screen) */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* always on top */
+}
+
+.popup-content {
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 350px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  font-family: 'Nunito', sans-serif;
+}
+
+.popup-content p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+.popup-content button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #f5b85c;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.popup-content button:hover {
+  background: #e0a742;
+}

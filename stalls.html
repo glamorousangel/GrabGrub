@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grab Grub</title>
+  <link rel="shortcut icon" type="x-icon" href="img/Logo.png">
+  <link rel="stylesheet" href="stalls.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<div class="menu-header">
+  <div class="back-arrow" onclick="window.location.href='index.html'">
+    <i class="fas fa-arrow-left"></i> Back
+  </div>
+  <div class="stall-info" id="stallInfo">
+    <!-- Stall info will be injected here -->
+  </div>
+</div>
+
+<!-- Stall Info Popout -->
+<div class="popout" id="popout">
+  <div class="popout-content" id="popoutContent">
+    <span class="close" id="closePopout">&times;</span>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Menu Section -->
+  <section class="menu" id="menuSection">
+    <h2>Menu</h2>
+    <!-- Items will load here -->
+  </section>
+
+  <!-- Order Summary -->
+  <aside class="order-summary">
+    <h3>Your Order</h3>
+    <div class="order-items"></div>
+    <div class="total"><strong>Total:</strong> <span id="orderTotal">₱0.00</span></div>
+    <div class="student-info">
+      <input type="text" placeholder="Full Name" id="studentName">
+      <input type="text" placeholder="Student ID" id="studentId">
+    </div>
+    <div class="payment-method">
+      <button>GCash</button>
+      <button>Cash on Pickup</button>
+    </div>
+    <button class="place-order">Place Order</button>
+  </aside>
+</div>
+
+<!-- Error / Success Popups -->
+<div class="popup" id="errorPopup">
+  <div class="popup-content">
+    <p id="errorMessage"></p>
+    <button onclick="closePopup('errorPopup')">OK</button>
+  </div>
+</div>
+
+<div class="popup" id="successPopup">
+  <div class="popup-content">
+    <p id="successMessage"></p>
+    <button onclick="closePopup('successPopup')">OK</button>
+  </div>
+</div>
+
+<div class="popup" id="readyPopup">
+  <div class="popup-content">
+    <p>Your food is ready for pickup!</p>
+    <button onclick="closePopup('readyPopup')">OK</button>
+  </div>
+</div>
+
+<script src="stalls-data.js"></script>
+<script src="stalls.js"></script>
+</body>
+</html>
