@@ -384,3 +384,12 @@ body {
 .popup-content button:hover {
   background: #e0a742;
 }
+
+.payment-method button.active {
+  background: #f5b85c;
+  color: #fff;
+  font-weight: bold;
+}
+.payment-method button:not(.active):hover {
+  background: #f0e1c4;
+}

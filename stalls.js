@@ -126,28 +126,63 @@ if (!stall) {
   }
 
   // === Place Order Logic ===
-  const placeOrderBtn = document.querySelector(".place-order");
-  placeOrderBtn.addEventListener("click", () => {
-    const name = document.getElementById("studentName").value.trim();
-    const id = document.getElementById("studentId").value.trim();
-    const total = parseFloat(orderTotal.innerText.replace("₱",""));
+let selectedPayment = null;
+const paymentButtons = document.querySelectorAll(".payment-method button");
 
-    if (!name || !id) {
-      showPopup("errorPopup", "Please enter your Full Name and Student ID.");
-      return;
-    }
-    if (total <= 0) {
-      showPopup("errorPopup", "Your cart is empty.");
-      return;
-    }
-
-    const pickupCode = stallKey.substring(0,2).toUpperCase() + Math.floor(100 + Math.random() * 900);
-    showPopup("successPopup", `Order placed successfully! Your pickup code is ${pickupCode}.`);
-
-    setTimeout(() => {
-      showPopup("readyPopup");
-    }, 10000);
+paymentButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // clear previous selection
+    paymentButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedPayment = btn.innerText; // GCash / Cash on Pickup
   });
+});
+
+const placeOrderBtn = document.querySelector(".place-order");
+placeOrderBtn.addEventListener("click", () => {
+  const name = document.getElementById("studentName").value.trim();
+  const id = document.getElementById("studentId").value.trim();
+  const total = parseFloat(orderTotal.innerText.replace("₱",""));
+
+  if (!name || !id) {
+    showPopup("errorPopup", "Please enter your Full Name and Student ID.");
+    return;
+  }
+  if (total <= 0) {
+    showPopup("errorPopup", "Your cart is empty.");
+    return;
+  }
+  if (!selectedPayment) {
+    showPopup("errorPopup", "Please select a payment method.");
+    return;
+  }
+
+ // create order object for seller dashboard
+const orderData = {
+  stall: stall.name,
+  studentName: name,
+  studentId: id,
+  paymentMethod: selectedPayment,
+  items: cart,
+  total: total,
+  timestamp: new Date().toISOString()
+};
+
+// Save to localStorage
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+orders.push(orderData);
+localStorage.setItem("orders", JSON.stringify(orders));
+
+console.log("Order Saved:", orderData);
+
+
+  const pickupCode = stallKey.substring(0,2).toUpperCase() + Math.floor(100 + Math.random() * 900);
+  showPopup("successPopup", `Order placed successfully! Your pickup code is ${pickupCode}.`);
+
+  setTimeout(() => {
+    showPopup("readyPopup");
+  }, 10000);
+});
 
   function showPopup(id, message) {
     const popup = document.getElementById(id);
