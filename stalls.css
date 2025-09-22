@@ -126,8 +126,8 @@ body {
 /* Menu Item Card */
 .menu-item {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    align-items: center;          /* vertically center everything */
+    gap: 15px;                    /* spacing between image, text, button */
     background: #fff;
     padding: 15px;
     border-radius: 10px;
@@ -147,9 +147,17 @@ body {
     height: 80px;
     object-fit: cover;
     border-radius: 8px;
+    flex-shrink: 0; /* keep image size consistent */
 }
 
 /* Item Info */
+.item-info {
+    flex: 1;                       /* stretch to take up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;   /* align text to top */
+}
+
 .item-info h4 {
     font-size: 16px;
     margin-bottom: 5px;
@@ -171,6 +179,7 @@ body {
 .item-action {
     display: flex;
     align-items: center;
+    flex-shrink: 0;                /* don’t let button shrink */
     gap: 5px;
 }
 
@@ -212,47 +221,33 @@ body {
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* top-align items */
-    gap: 10px; /* small space between items */
+    justify-content: flex-start;
+    gap: 10px;
     position: sticky;
     top: 20px;
-    align-self: flex-start; /* shrink to content width */
-    max-height: calc(100vh - 40px); /* prevent overflow beyond screen */
+    align-self: flex-start;
+    max-height: calc(100vh - 40px);
 }
 
-/* Place Order Button always at bottom of sidebar */
 .order-summary .place-order-btn {
-    margin-top: 10px; /* small space from last item */
-    align-self: stretch; /* full width button */
+    margin-top: 10px;
+    align-self: stretch;
 }
 
 @media screen and (min-width: 769px) {
     .order-summary {
         display: none; /* hidden by default on desktop */
-        flex-direction: column;
-        gap: 10px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        position: sticky;
-        top: 20px;
-        max-height: calc(100vh - 40px);
     }
 
     .order-summary.active {
         display: flex; /* show when cart has items */
     }
-
-    .order-summary .place-order-btn {
-        margin-top: 10px;
-        align-self: stretch;
-    }
 }
 
 @media screen and (max-width: 768px) {
     .order-summary {
-        position: fixed;       /* stick to screen */
-        bottom: 0;             /* bottom of screen */
+        position: fixed;
+        bottom: 0;
         left: 0;
         width: 100%;
         padding: 10px 15px;
@@ -262,26 +257,19 @@ body {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        transform: translateY(100%);  /* hide initially */
+        transform: translateY(100%);
         transition: transform 0.3s ease;
         z-index: 999;
         max-height: 80vh;
-        flex: none;            /* prevent flex-grow from desktop */
-        top: auto;             /* remove any sticky top */
-        align-self: auto;      /* remove desktop alignment */
+        flex: none;
+        top: auto;
+        align-self: auto;
     }
 
     .order-summary.active {
-        transform: translateY(0);  /* slide up */
-    }
-
-    .order-summary .place-order-btn {
-        margin-top: 5px;
-        align-self: stretch;
+        transform: translateY(0);
     }
 }
-
-
 
 /* Order Items inside sidebar */
 .order-items {
@@ -349,7 +337,7 @@ body {
   background: rgba(0,0,0,0.6);
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* always on top */
+  z-index: 9999;
 }
 
 .popup-content {
