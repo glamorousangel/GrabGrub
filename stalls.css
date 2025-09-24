@@ -27,16 +27,35 @@ body {
 .stall-info {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start; /* Align to top to prevent text overlap */
     gap: 20px;
 }
 
 .stall-info .stall-image {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
+    display: block; /* Ensure it behaves well in flex */
+    width: 100%; /* Full width to span horizontally */
+    max-width: 100%; /* Prevent overflow on wide screens */
+    height: auto; /* Let aspect ratio control height for consistency */
+    aspect-ratio: 16 / 9; /* Fixed wide rectangular ratio for consistent crop scope */
+    min-height: 120px; /* Base min-height for big banner on mobile */
+    object-fit: cover; /* Crop to fill without stretching/distortion */
+    object-position: center; /* Focus on center for same scope across views */
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 8px; /* Subtle rounding for banner style */
+    flex: 1 1 auto; /* Grow to cover available horizontal space in flex */
+    min-width: 200px; /* Minimum width to prevent too-narrow on small screens */
+    
+    /* Anti-blur enhancements: Sharpen rendering on upscale */
+    image-rendering: -webkit-optimize-contrast; /* Chrome/Safari: Boost contrast */
+    image-rendering: crisp-edges; /* Firefox/others: Prevent smoothing */
+    backface-visibility: hidden; /* Hardware acceleration for smoother render */
+    transform: translateZ(0); /* Force GPU rendering */
+    will-change: transform; /* Optimize for scaling */
+}
+
+.info-text {
+    flex: 1 1 auto; /* Allow text to grow/shrink beside image */
+    min-width: 200px; /* Prevent text from squeezing too much */
 }
 
 .info-text h2 {
@@ -50,10 +69,18 @@ body {
     margin-bottom: 10px;
 }
 
+.details {
+    flex: 1 1 100%; /* Full width on wrap for details */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
 .details span {
     margin-right: 15px;
     font-size: 13px;
     color: #888;
+    margin-bottom: 5px; /* Space if wrapping */
 }
 
 /* Popout Box */
@@ -70,7 +97,7 @@ body {
 
 .popout-content {
     background: #fff;
-    padding: 30px;
+    padding: 60px 30px 30px 30px; /* Increased top padding to 60px for space above image (prevents close icon overlap) */
     max-width: 500px;
     width: 90%;
     border-radius: 10px;
@@ -84,6 +111,17 @@ body {
     height: auto;
     margin-bottom: 15px;
     border-radius: 10px;
+    aspect-ratio: 16 / 9; /* Rectangular shape like mobile/smaller devices stall info */
+    min-height: 120px; /* Base height matching mobile view */
+    object-fit: cover; /* Crop to fill rectangle without distortion */
+    object-position: center; /* Focus on center */
+    
+    /* Anti-blur enhancements (matching stall-image) */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .popout-content .close {
@@ -249,6 +287,39 @@ body {
     .order-summary.active {
         display: flex; /* Show when cart has items */
     }
+
+    /* Bigger Views (Desktop/Tablet): Small square image like original */
+    .stall-info {
+        align-items: center; /* Center vertically for balanced side-by-side */
+        gap: 15px; /* Slightly less gap for compact feel */
+    }
+
+    .stall-info .stall-image {
+        aspect-ratio: 1 / 1; /* Square shape */
+        width: 150px; /* Fixed small width like original */
+        height: 150px; /* Fixed small height for square */
+        min-height: auto; /* Override base for fixed size */
+        max-width: 150px; /* Cap to prevent growth */
+        max-height: 150px; /* Cap to prevent growth */
+        flex: 0 0 150px; /* Fixed flex: don't grow/shrink */
+        min-width: 150px; /* Fixed min-width */
+        image-rendering: -webkit-optimize-contrast; /* Re-apply anti-blur */
+        image-rendering: crisp-edges;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    .info-text {
+        flex: 1; /* Take remaining space beside small image */
+        align-self: flex-start; /* Top-align text */
+        text-align: left; /* Left-align for readability on desktop */
+    }
+
+    .details {
+        justify-content: flex-start; /* Left-align details on desktop */
+        text-align: left;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -275,6 +346,37 @@ body {
 
     .order-summary.active {
         transform: translateY(0);
+    }
+
+    /* Smaller Views (Mobile): Big rectangular banner, description centered */
+    .stall-info .stall-image {
+        aspect-ratio: 16 / 9; /* Wide rectangular for big banner */
+        min-height: 120px; /* Big but compact on mobile */
+        max-width: 100%; /* Full width without overflow */
+        flex: 1 1 100%; /* Full width in stacked layout */
+        image-rendering: -webkit-optimize-contrast; /* Anti-blur for zoom */
+        image-rendering: crisp-edges;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    .stall-info {
+        flex-direction: column; /* Stack image above text on mobile */
+        align-items: center; /* Center everything */
+        text-align: center; /* Center description */
+        gap: 15px; /* Space between image and text */
+    }
+
+    .info-text,
+    .details {
+        width: 100%; /* Full width on mobile for text */
+        text-align: center; /* Centered as requested */
+    }
+
+    .details {
+        justify-content: center; /* Center details spans */
+        flex-wrap: wrap;
     }
 }
 
