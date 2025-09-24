@@ -213,7 +213,7 @@ body {
     font-weight: bold;
 }
 
-/* Desktop Order Summary */
+/* Desktop Order Summary - Made Wider (350px) */
 .order-summary {
     background: #fff;
     padding: 20px;
@@ -235,12 +235,19 @@ body {
 }
 
 @media screen and (min-width: 769px) {
+    .menu {
+        flex: 1; /* Balance with wider order summary */
+    }
+
     .order-summary {
-        display: none; /* hidden by default on desktop */
+        width: 350px; /* Fixed wider width for desktop */
+        min-width: 350px; /* Prevent shrinking */
+        flex-shrink: 0; /* Don't let it compress */
+        display: none; /* Hidden by default on desktop */
     }
 
     .order-summary.active {
-        display: flex; /* show when cart has items */
+        display: flex; /* Show when cart has items */
     }
 }
 
@@ -287,7 +294,7 @@ body {
     color: #f5b85c;
 }
 
-/* Student Info & Payment */
+/* Student Info & Payment - Updated for Full-Width Matching Buttons */
 .student-info input {
     width: 100%;
     padding: 8px;
@@ -296,20 +303,39 @@ body {
     border: 1px solid #ccc;
 }
 
+.payment-method {
+    display: flex;
+    flex-direction: column; /* Stack vertically on all devices */
+    width: 100%; /* Full width of container */
+    gap: 10px; /* Even spacing between buttons */
+    margin-bottom: 15px; /* Space before place-order button */
+}
+
 .payment-method button {
-    width: 48%;
-    padding: 10px;
-    margin-bottom: 10px;
+    width: 100%; /* Full width to match place-order button */
+    padding: 12px; /* Match place-order padding for height consistency */
     border-radius: 5px;
     border: 1px solid #f5b85c;
     background: #fff;
     color: #f5b85c;
     cursor: pointer;
+    font-size: 16px; /* Match place-order font size */
+    transition: all 0.3s ease;
 }
 
 .payment-method button:hover {
     background: #f5b85c;
     color: #fff;
+}
+
+.payment-method button.active {
+    background: #f5b85c;
+    color: #fff;
+    font-weight: bold;
+}
+
+.payment-method button:not(.active):hover {
+    background: #f0e1c4;
 }
 
 .place-order {
@@ -320,6 +346,7 @@ body {
     cursor: pointer;
     color: #fff;
     font-size: 16px;
+    width: 100%; /* Explicit full width for consistency */
 }
 
 .place-order:hover {
@@ -373,11 +400,40 @@ body {
   background: #e0a742;
 }
 
-.payment-method button.active {
-  background: #f5b85c;
-  color: #fff;
-  font-weight: bold;
+/* Error styling for validation (only for student inputs) */
+input.error {
+  border: 2px solid #e74c3c !important; /* Red outline */
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.3); /* Subtle red glow */
+  background-color: #fdf2f2; /* Light red background for emphasis */
 }
-.payment-method button:not(.active):hover {
-  background: #f0e1c4;
+
+/* Clear error state when focused/valid */
+input.error:focus {
+  border-color: #f5b85c !important; /* Restore normal color on focus */
+  box-shadow: none;
+  background-color: #fff;
+}
+
+/* Inline error message */
+.error-message {
+  display: none;
+  color: #e74c3c;
+  font-size: 11px; /* Smaller size for subtlety */
+  font-style: italic;
+  margin: 5px 0; /* Margin top and bottom for breathing room */
+  padding: 2px 0; /* Tiny internal padding if needed */
+  min-height: 16px; /* Ensures consistent space even when hidden */
+}
+
+input.error + .error-message {
+  display: block; /* Show message when input has error class */
+}
+
+/* Ensure it doesn't push other elements too much */
+.student-info {
+  margin-bottom: 10px; /* Extra space after the whole info section */
+}
+
+.student-info input {
+  margin-bottom: 5px; /* Space between input and its error message */
 }

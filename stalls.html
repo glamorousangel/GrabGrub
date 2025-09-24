@@ -40,8 +40,10 @@
     <div class="order-items"></div>
     <div class="total"><strong>Total:</strong> <span id="orderTotal">₱0.00</span></div>
     <div class="student-info">
-      <input type="text" placeholder="Full Name" id="studentName">
-      <input type="text" placeholder="Student ID" id="studentId">
+      <input type="text" id="studentName" placeholder="Full Name" maxlength="50">
+      <span class="error-message" id="nameError"></span>
+      <input type="text" id="studentId" placeholder="Student ID (9 digits)" maxlength="9">
+      <span class="error-message" id="idError"></span>
     </div>
     <div class="payment-method">
       <button>GCash</button>

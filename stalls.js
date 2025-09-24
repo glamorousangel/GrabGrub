@@ -62,7 +62,7 @@ if (!stall) {
     menuSection.appendChild(catDiv);
   }
 
-  // === Cart Logic (same as before) ===
+  // === Cart Logic ===
   const items = document.querySelectorAll(".menu-item");
   const orderItems = document.querySelector(".order-items");
   const orderTotal = document.getElementById("orderTotal");
@@ -125,65 +125,37 @@ if (!stall) {
     else orderSummary.classList.remove("active");
   }
 
-  // === Place Order Logic ===
-let selectedPayment = null;
-const paymentButtons = document.querySelectorAll(".payment-method button");
+  // === Place Order Logic (enhanced validation for student info) ===
+  let selectedPayment = null;
+  const paymentButtons = document.querySelectorAll(".payment-method button");
+  const studentNameInput = document.getElementById("studentName");
+  const studentIdInput = document.getElementById("studentId");
+  const nameErrorSpan = document.getElementById("nameError"); // For inline message (optional)
+  const idErrorSpan = document.getElementById("idError");     // For inline message (optional)
 
-paymentButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    // clear previous selection
-    paymentButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    selectedPayment = btn.innerText; // GCash / Cash on Pickup
+  // Clear errors on user interaction (including messages)
+  function clearNameError() {
+    studentNameInput.classList.remove("error");
+    if (nameErrorSpan) nameErrorSpan.textContent = "";
+  }
+  function clearIdError() {
+    studentIdInput.classList.remove("error");
+    if (idErrorSpan) idErrorSpan.textContent = "";
+  }
+
+  studentNameInput.addEventListener("input", clearNameError);
+  studentIdInput.addEventListener("input", clearIdError);
+
+  // Payment selection (unchanged)
+  paymentButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      paymentButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      selectedPayment = btn.innerText;
+    });
   });
-});
 
-const placeOrderBtn = document.querySelector(".place-order");
-placeOrderBtn.addEventListener("click", () => {
-  const name = document.getElementById("studentName").value.trim();
-  const id = document.getElementById("studentId").value.trim();
-  const total = parseFloat(orderTotal.innerText.replace("₱",""));
-
-  if (!name || !id) {
-    showPopup("errorPopup", "Please enter your Full Name and Student ID.");
-    return;
-  }
-  if (total <= 0) {
-    showPopup("errorPopup", "Your cart is empty.");
-    return;
-  }
-  if (!selectedPayment) {
-    showPopup("errorPopup", "Please select a payment method.");
-    return;
-  }
-
- // create order object for seller dashboard
-const orderData = {
-  stall: stall.name,
-  studentName: name,
-  studentId: id,
-  paymentMethod: selectedPayment,
-  items: cart,
-  total: total,
-  timestamp: new Date().toISOString()
-};
-
-// Save to localStorage
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-orders.push(orderData);
-localStorage.setItem("orders", JSON.stringify(orders));
-
-console.log("Order Saved:", orderData);
-
-
-  const pickupCode = stallKey.substring(0,2).toUpperCase() + Math.floor(100 + Math.random() * 900);
-  showPopup("successPopup", `Order placed successfully! Your pickup code is ${pickupCode}.`);
-
-  setTimeout(() => {
-    showPopup("readyPopup");
-  }, 10000);
-});
-
+  // Define popup functions (unchanged)
   function showPopup(id, message) {
     const popup = document.getElementById(id);
     if (message) {
@@ -192,7 +164,104 @@ console.log("Order Saved:", orderData);
     }
     popup.style.display = "flex";
   }
+
   function closePopup(id) {
     document.getElementById(id).style.display = "none";
   }
+
+  // Place order button
+  const placeOrderBtn = document.querySelector(".place-order");
+  placeOrderBtn.addEventListener("click", () => {
+    const name = studentNameInput.value.trim();
+    const id = studentIdInput.value.trim();
+    const total = parseFloat(orderTotal.innerText.replace("₱", ""));
+
+    // Clear any previous errors first
+    clearNameError();
+    clearIdError();
+
+    // Validation for student name
+    let nameValid = true;
+    let nameErrorMsg = "";
+    if (!name) {
+      nameValid = false;
+      nameErrorMsg = "Full Name is required.";
+    } else if (name.length < 2 || name.length > 50) {
+      nameValid = false;
+      nameErrorMsg = "Name must be 2-50 characters long.";
+    } else if (!/^[a-zA-Z\s'-]+$/.test(name)) { // Only letters, spaces, hyphens, apostrophes
+      nameValid = false;
+      nameErrorMsg = "Name can only contain letters, spaces, hyphens, and apostrophes.";
+    }
+
+    // Validation for student ID
+    let idValid = true;
+    let idErrorMsg = "";
+    if (!id) {
+      idValid = false;
+      idErrorMsg = "Student ID is required.";
+    } else if (id.length !== 9) {
+      idValid = false;
+      idErrorMsg = "Student ID must be exactly 9 characters.";
+    } else if (!/^\d{9}$/.test(id)) { // Only digits
+      idValid = false;
+      idErrorMsg = "Student ID must contain only numbers.";
+    }
+
+    // Apply errors if invalid
+    let hasStudentErrors = !nameValid || !idValid;
+    if (!nameValid) {
+      studentNameInput.classList.add("error");
+      if (nameErrorSpan) nameErrorSpan.textContent = nameErrorMsg;
+    }
+    if (!idValid) {
+      studentIdInput.classList.add("error");
+      if (idErrorSpan) idErrorSpan.textContent = idErrorMsg;
+    }
+
+    // If student info is invalid, stop here (user sees red outlines + messages)
+    if (hasStudentErrors) {
+      return; // Don't proceed with order
+    }
+
+    // Check empty cart (popup, unchanged)
+    if (total <= 0) {
+      showPopup("errorPopup", "Your cart is empty.");
+      return;
+    }
+
+    // Check payment method (popup, unchanged)
+    if (!selectedPayment) {
+      showPopup("errorPopup", "Please select a payment method.");
+      return;
+    }
+
+    // All validations passed - create and save order (unchanged)
+    const orderData = {
+      stall: stall.name,
+      studentName: name,
+      studentId: id,
+      paymentMethod: selectedPayment,
+      items: cart,
+      total: total,
+      timestamp: new Date().toISOString()
+    };
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(orderData);
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    console.log("Order Saved:", orderData);
+
+    const pickupCode = stallKey.substring(0, 2).toUpperCase() + Math.floor(100 + Math.random() * 900);
+    showPopup("successPopup", `Order placed successfully! Your pickup code is ${pickupCode}.`);
+
+    // Optional: Clear cart after successful order
+    cart = {};
+    updateCart();
+
+    setTimeout(() => {
+      showPopup("readyPopup");
+    }, 10000);
+  });
 }
