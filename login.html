@@ -5,31 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grab Grub | Seller Login</title>
   <link rel="shortcut icon" type="x-icon" href="img/Logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
   <style>
     body {
       font-family: 'Nunito', sans-serif;
-      background: #f9f9f9;
+      height: 100vh;
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+        url("img/bg.jpg") no-repeat center center/cover; 
     }
+
+    /* Header / Brand Name */
+    .brand {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .login-card {
       background: #fff;
       padding: 40px 30px;
       border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.338);
       text-align: center;
       width: 100%;
       max-width: 400px;
     }
+
     .login-card h2 {
       margin-bottom: 20px;
       color: #333;
     }
+
     .login-card input {
       width: 100%;
       padding: 12px;
@@ -38,6 +56,7 @@
       border-radius: 8px;
       font-size: 14px;
     }
+
     .login-card button {
       width: 100%;
       padding: 12px;
@@ -50,9 +69,11 @@
       cursor: pointer;
       transition: 0.2s;
     }
+
     .login-card button:hover {
       background: #e0a84f;
     }
+
     .error {
       color: red;
       font-size: 14px;
@@ -62,6 +83,12 @@
 </head>
 <body>
 
+  <!-- Brand/Logo -->
+  <div class="brand">
+    GRABGRUB
+  </div>
+
+  <!-- Login Card -->
   <div class="login-card">
     <h2>🔒 Seller Login</h2>
     <input type="text" id="username" placeholder="Username" required>
