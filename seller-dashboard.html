@@ -124,12 +124,17 @@
                                 <option value="add-section">+ Add Section</option>
                                 <option value="remove-section">- Remove Section</option>
                             </select>
-                            <select id="item-size" class="select">
-                                <option value="">Select Size (Optional)</option>
-                                <option value="Small">Small</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Large">Large</option>
-                            </select>
+                            <div class="sizing-section">
+                                <div class="sizing-header">
+                                    <label class="label">Size Options</label>
+                                    <button type="button" id="add-sizing-btn" class="btn btn-outline btn-sm">
+                                        + Add Sizing
+                                    </button>
+                                </div>
+                                <div id="sizing-options" class="sizing-options">
+                                    <div class="single-size-notice">Item will use single default size</div>
+                                </div>
+                            </div>
                             <div class="image-upload">
                                 <input type="file" id="item-image" accept="image/*" class="image-input">
                                 <label for="item-image" class="image-label">
@@ -169,12 +174,17 @@
             <div class="modal-body">
                 <input type="text" id="edit-name" placeholder="Item Name" class="input">
                 <input type="number" id="edit-price" placeholder="Price" step="0.01" class="input">
-                <select id="edit-size" class="select">
-                    <option value="">Select Size (Optional)</option>
-                    <option value="Small">Small</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Large">Large</option>
-                </select>
+                <div class="sizing-section">
+                    <div class="sizing-header">
+                        <label class="label">Size Options</label>
+                        <button type="button" id="edit-add-sizing-btn" class="btn btn-outline btn-sm">
+                            + Add Sizing
+                        </button>
+                    </div>
+                    <div id="edit-sizing-options" class="sizing-options">
+                        <div class="single-size-notice">Item will use single default size</div>
+                    </div>
+                </div>
                 <div class="image-upload">
                     <input type="file" id="edit-image" accept="image/*" class="image-input">
                     <label for="edit-image" class="image-label">
@@ -235,6 +245,35 @@
                 <input type="password" id="new-password" placeholder="New Password" class="input">
                 <input type="password" id="confirm-password" placeholder="Confirm New Password" class="input">
                 <button id="update-password-btn" class="btn btn-primary">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Management Modal -->
+    <div id="size-management-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manage Sizes</h3>
+                <button class="modal-close" id="size-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="size-input-section">
+                    <input type="text" id="size-name-input" placeholder="Size name (e.g., Small, Medium, Large)" class="input">
+                    <input type="number" id="size-price-input" placeholder="Price adjustment (optional)" step="0.01" class="input">
+                    <button id="add-size-btn" class="btn btn-secondary">Add Size</button>
+                </div>
+                
+                <div class="size-list-section">
+                    <h4>Current Sizes:</h4>
+                    <div id="current-sizes-list" class="size-list">
+                        <!-- Size items will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button id="save-sizes-btn" class="btn btn-primary">Save Sizes</button>
+                    <button id="cancel-sizes-btn" class="btn btn-ghost">Cancel</button>
+                </div>
             </div>
         </div>
     </div>

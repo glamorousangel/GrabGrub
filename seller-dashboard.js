@@ -1,11 +1,13 @@
+// Grab Grub Seller Dashboard - Vanilla JavaScript
+
 class SellerDashboard {
     constructor() {
         this.menuItems = [
-            { id: 1, name: 'Classic Burger', price: 8.50, description: 'Beef patty, lettuce, tomato, cheese', category: 'Burgers', available: true, size: 'Medium', image: null },
-            { id: 2, name: 'Bacon Cheeseburger', price: 10.50, description: 'Classic burger with crispy bacon', category: 'Burgers', available: true, size: 'Large', image: null },
-            { id: 3, name: 'Veggie Burger', price: 9.00, description: 'Plant-based patty with vegetables', category: 'Burgers', available: false, size: 'Medium', image: null },
-            { id: 4, name: 'Crispy Fries', price: 4.50, description: 'Golden crispy fries', category: 'Sides', available: true, size: 'Small', image: null },
-            { id: 5, name: 'Soft Drink', price: 2.50, description: 'Various sodas available', category: 'Drinks', available: true, size: 'Large', image: null }
+            { id: 1, name: 'Classic Burger', price: 8.50, description: 'Beef patty, lettuce, tomato, cheese', category: 'Burgers', available: true, sizes: null, image: null },
+            { id: 2, name: 'Bacon Cheeseburger', price: 10.50, description: 'Classic burger with crispy bacon', category: 'Burgers', available: true, sizes: [{ name: 'Small', priceAdjustment: -1.50 }, { name: 'Medium', priceAdjustment: 0 }, { name: 'Large', priceAdjustment: 2.00 }], image: null },
+            { id: 3, name: 'Veggie Burger', price: 9.00, description: 'Plant-based patty with vegetables', category: 'Burgers', available: false, sizes: null, image: null },
+            { id: 4, name: 'Crispy Fries', price: 4.50, description: 'Golden crispy fries', category: 'Sides', available: true, sizes: [{ name: 'Small', priceAdjustment: 0 }, { name: 'Large', priceAdjustment: 1.50 }], image: null },
+            { id: 5, name: 'Soft Drink', price: 2.50, description: 'Various sodas available', category: 'Drinks', available: true, sizes: null, image: null }
         ];
 
         this.sections = ['Burgers', 'Sides', 'Drinks', 'Desserts'];
@@ -40,6 +42,8 @@ class SellerDashboard {
         ];
 
         this.editingItem = null;
+        this.currentSizes = [];
+        this.isEditingMode = false;
         this.init();
     }
 
@@ -87,6 +91,16 @@ class SellerDashboard {
 
         // Add new menu item
         document.getElementById('add-item-btn').addEventListener('click', () => this.addMenuItem());
+
+        // Size management buttons
+        document.getElementById('add-sizing-btn').addEventListener('click', () => this.openSizeManagement(false));
+        document.getElementById('edit-add-sizing-btn').addEventListener('click', () => this.openSizeManagement(true));
+
+        // Size management modal
+        document.getElementById('size-modal-close').addEventListener('click', () => this.closeSizeManagement());
+        document.getElementById('add-size-btn').addEventListener('click', () => this.addSize());
+        document.getElementById('save-sizes-btn').addEventListener('click', () => this.saveSizes());
+        document.getElementById('cancel-sizes-btn').addEventListener('click', () => this.closeSizeManagement());
 
         // Category dropdown handling
         document.getElementById('item-category').addEventListener('change', (e) => {
@@ -279,8 +293,17 @@ class SellerDashboard {
                     <div class="menu-item-info">
                         <h4>${item.name}</h4>
                         <div class="badge" style="background: var(--muted); color: var(--muted-foreground); font-size: 0.75rem;">
-                            ${item.category}${item.size ? ` - ${item.size}` : ''}
+                            ${item.category}${item.sizes ? ' - Multiple Sizes' : ' - Single Size'}
                         </div>
+                        ${item.sizes ? `
+                            <div class="size-options-display">
+                                ${item.sizes.map(size => `
+                                    <span class="size-option">
+                                        ${size.name}: ₱${(item.price + size.priceAdjustment).toFixed(2)}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
                     </div>
                     <div class="menu-item-actions">
                         <button class="btn btn-ghost btn-sm" onclick="dashboard.editMenuItem(${item.id})">
@@ -295,7 +318,7 @@ class SellerDashboard {
                 <div class="menu-item-description">${item.description}</div>
                 
                 <div class="menu-item-footer">
-                    <span class="menu-item-price">₱${item.price.toFixed(2)}</span>
+                    <span class="menu-item-price">₱${item.sizes ? 'from ' : ''}${item.price.toFixed(2)}</span>
                     <button class="btn btn-sm ${item.available ? 'btn-primary' : 'btn-ghost'}" 
                             onclick="dashboard.toggleItemAvailability(${item.id})">
                         ${item.available ? 'Available' : 'Out of Stock'}
@@ -309,7 +332,6 @@ class SellerDashboard {
         const name = document.getElementById('item-name').value.trim();
         const price = parseFloat(document.getElementById('item-price').value);
         const category = document.getElementById('item-category').value;
-        const size = document.getElementById('item-size').value;
         const description = document.getElementById('item-description').value.trim();
         const imageFile = document.getElementById('item-image').files[0];
 
@@ -324,7 +346,7 @@ class SellerDashboard {
             price,
             description,
             category,
-            size: size || null,
+            sizes: this.currentSizes.length > 0 ? [...this.currentSizes] : null,
             available: true,
             image: imageFile ? URL.createObjectURL(imageFile) : null
         };
@@ -334,11 +356,14 @@ class SellerDashboard {
         // Clear form
         document.getElementById('item-name').value = '';
         document.getElementById('item-price').value = '';
-        document.getElementById('item-size').value = '';
         document.getElementById('item-description').value = '';
         document.getElementById('item-category').value = 'Burgers';
         document.getElementById('item-image').value = '';
         document.getElementById('image-preview').classList.remove('show');
+        
+        // Reset sizing
+        this.currentSizes = [];
+        this.updateSizingDisplay(false);
 
         this.showToast('Item Added', 'New menu item has been added successfully.');
         this.renderMenuItems();
@@ -352,8 +377,11 @@ class SellerDashboard {
         
         document.getElementById('edit-name').value = item.name;
         document.getElementById('edit-price').value = item.price;
-        document.getElementById('edit-size').value = item.size || '';
         document.getElementById('edit-description').value = item.description;
+        
+        // Set up sizing for editing
+        this.currentSizes = item.sizes ? [...item.sizes] : [];
+        this.updateSizingDisplay(true);
         
         // Show current image if exists
         if (item.image) {
@@ -370,7 +398,6 @@ class SellerDashboard {
 
         const name = document.getElementById('edit-name').value.trim();
         const price = parseFloat(document.getElementById('edit-price').value);
-        const size = document.getElementById('edit-size').value;
         const description = document.getElementById('edit-description').value.trim();
         const imageFile = document.getElementById('edit-image').files[0];
 
@@ -385,8 +412,8 @@ class SellerDashboard {
                 ...this.menuItems[itemIndex],
                 name,
                 price,
-                size: size || null,
                 description,
+                sizes: this.currentSizes.length > 0 ? [...this.currentSizes] : null,
                 image: imageFile ? URL.createObjectURL(imageFile) : this.editingItem.image
             };
         }
@@ -417,6 +444,8 @@ class SellerDashboard {
         document.getElementById('edit-image-preview').classList.remove('show');
         document.getElementById('edit-image').value = '';
         this.editingItem = null;
+        this.currentSizes = [];
+        this.updateSizingDisplay(false);
     }
 
     // Profile Menu Methods
@@ -603,6 +632,103 @@ class SellerDashboard {
         setTimeout(() => {
             toast.remove();
         }, 3000);
+    }
+
+    // Size Management Methods
+    openSizeManagement(isEdit) {
+        this.isEditingMode = isEdit;
+        document.getElementById('size-management-modal').classList.add('show');
+        this.renderCurrentSizes();
+    }
+
+    closeSizeManagement() {
+        document.getElementById('size-management-modal').classList.remove('show');
+        document.getElementById('size-name-input').value = '';
+        document.getElementById('size-price-input').value = '';
+    }
+
+    addSize() {
+        const sizeName = document.getElementById('size-name-input').value.trim();
+        const priceAdjustment = parseFloat(document.getElementById('size-price-input').value) || 0;
+
+        if (!sizeName) {
+            this.showToast('Missing Information', 'Please enter a size name.', 'error');
+            return;
+        }
+
+        // Check if size already exists
+        if (this.currentSizes.some(size => size.name.toLowerCase() === sizeName.toLowerCase())) {
+            this.showToast('Duplicate Size', 'This size already exists.', 'error');
+            return;
+        }
+
+        this.currentSizes.push({ name: sizeName, priceAdjustment });
+        
+        // Clear inputs
+        document.getElementById('size-name-input').value = '';
+        document.getElementById('size-price-input').value = '';
+        
+        this.renderCurrentSizes();
+    }
+
+    removeSize(index) {
+        this.currentSizes.splice(index, 1);
+        this.renderCurrentSizes();
+    }
+
+    renderCurrentSizes() {
+        const container = document.getElementById('current-sizes-list');
+        
+        if (this.currentSizes.length === 0) {
+            container.innerHTML = '<div class="empty-state">No sizes added yet</div>';
+            return;
+        }
+
+        container.innerHTML = this.currentSizes.map((size, index) => `
+            <div class="size-item">
+                <div class="size-item-info">
+                    <div class="size-item-name">${size.name}</div>
+                    <div class="size-item-price">
+                        ${size.priceAdjustment === 0 ? 'Base price' : 
+                          size.priceAdjustment > 0 ? `+₱${size.priceAdjustment.toFixed(2)}` : 
+                          `₱${size.priceAdjustment.toFixed(2)}`}
+                    </div>
+                </div>
+                <div class="size-item-actions">
+                    <button class="size-item-remove" onclick="dashboard.removeSize(${index})">Remove</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    saveSizes() {
+        this.updateSizingDisplay(this.isEditingMode);
+        this.closeSizeManagement();
+        this.showToast('Sizes Updated', 'Size options have been configured.');
+    }
+
+    updateSizingDisplay(isEdit) {
+        const containerId = isEdit ? 'edit-sizing-options' : 'sizing-options';
+        const container = document.getElementById(containerId);
+        
+        if (this.currentSizes.length === 0) {
+            container.innerHTML = '<div class="single-size-notice">Item will use single default size</div>';
+            container.classList.remove('has-sizes');
+        } else {
+            container.innerHTML = this.currentSizes.map(size => `
+                <div class="size-item">
+                    <div class="size-item-info">
+                        <div class="size-item-name">${size.name}</div>
+                        <div class="size-item-price">
+                            ${size.priceAdjustment === 0 ? 'Base price' : 
+                              size.priceAdjustment > 0 ? `+₱${size.priceAdjustment.toFixed(2)}` : 
+                              `₱${size.priceAdjustment.toFixed(2)}`}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            container.classList.add('has-sizes');
+        }
     }
 }
 
