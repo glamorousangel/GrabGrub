@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// === Info Popup Data ===
 const popupContents = {
   "how-it-works": `
     <h2>How It Works</h2>
@@ -196,7 +195,6 @@ const popupContents = {
   `
 };
 
-// === Create Popup Structure ===
 function ensureInfoPopup() {
   let popup = document.getElementById('info-popup');
   if (!popup) {
@@ -233,7 +231,6 @@ function closeInfoPopup() {
   }
 }
 
-// === Attach Click Events ===
 document.querySelectorAll('[data-popup]').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
