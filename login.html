@@ -20,7 +20,6 @@
         url("img/bg.jpg") no-repeat center center/cover; 
     }
 
-    /* Header / Brand Name */
     .brand {
       position: absolute;
       top: 20px;
@@ -83,12 +82,10 @@
 </head>
 <body>
 
-  <!-- Brand/Logo -->
   <div class="brand">
     GRABGRUB
   </div>
 
-  <!-- Login Card -->
   <div class="login-card">
     <h2>🔒 Seller Login</h2>
     <input type="text" id="username" placeholder="Username" required>
@@ -98,7 +95,6 @@
   </div>
 
   <script>
-    // Fake credentials
     const VALID_USER = "admin";
     const VALID_PASS = "1234";
 
@@ -109,7 +105,6 @@
       const error = document.getElementById("loginError");
 
       if (user === VALID_USER && pass === VALID_PASS) {
-        // Redirect to seller dashboard
         window.location.href = "seller.html";
       } else {
         error.innerText = "Invalid username or password.";
