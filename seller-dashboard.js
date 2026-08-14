@@ -1,4 +1,3 @@
-// Grab Grub Seller Dashboard - Vanilla JavaScript
 
 class SellerDashboard {
     constructor() {
@@ -56,24 +55,20 @@ class SellerDashboard {
     }
 
     setupEventListeners() {
-        // Tab switching
         const tabTriggers = document.querySelectorAll('.tab-trigger');
         tabTriggers.forEach(trigger => {
             trigger.addEventListener('click', () => this.switchTab(trigger.dataset.tab));
         });
 
-        // Profile menu
         document.getElementById('profile-btn').addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleProfileMenu();
         });
 
-        // Close profile menu when clicking outside
         document.addEventListener('click', () => {
             document.getElementById('profile-dropdown').classList.remove('show');
         });
 
-        // Profile menu items
         document.getElementById('change-password-btn').addEventListener('click', (e) => {
             e.preventDefault();
             this.openChangePasswordModal();
@@ -81,7 +76,7 @@ class SellerDashboard {
 
         document.getElementById('view-stall-btn').addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = 'stall-page.html'; // Replace with actual stall page URL
+            window.location.href = 'stall-page.html'; 
         });
 
         document.getElementById('logout-btn').addEventListener('click', (e) => {
@@ -89,20 +84,16 @@ class SellerDashboard {
             this.logout();
         });
 
-        // Add new menu item
         document.getElementById('add-item-btn').addEventListener('click', () => this.addMenuItem());
 
-        // Size management buttons
         document.getElementById('add-sizing-btn').addEventListener('click', () => this.openSizeManagement(false));
         document.getElementById('edit-add-sizing-btn').addEventListener('click', () => this.openSizeManagement(true));
 
-        // Size management modal
         document.getElementById('size-modal-close').addEventListener('click', () => this.closeSizeManagement());
         document.getElementById('add-size-btn').addEventListener('click', () => this.addSize());
         document.getElementById('save-sizes-btn').addEventListener('click', () => this.saveSizes());
         document.getElementById('cancel-sizes-btn').addEventListener('click', () => this.closeSizeManagement());
 
-        // Category dropdown handling
         document.getElementById('item-category').addEventListener('change', (e) => {
             if (e.target.value === 'add-section') {
                 this.openAddSectionModal();
@@ -111,7 +102,6 @@ class SellerDashboard {
             }
         });
 
-        // Image upload handling
         document.getElementById('item-image').addEventListener('change', (e) => {
             this.handleImageUpload(e, 'image-preview');
         });
@@ -120,35 +110,28 @@ class SellerDashboard {
             this.handleImageUpload(e, 'edit-image-preview');
         });
 
-        // Modal close buttons
         document.querySelector('.modal-close').addEventListener('click', () => this.closeModal());
         document.getElementById('edit-modal').addEventListener('click', (e) => {
             if (e.target.id === 'edit-modal') this.closeModal();
         });
 
-        // Add Section Modal
         document.getElementById('add-section-close').addEventListener('click', () => this.closeAddSectionModal());
         document.getElementById('create-section-btn').addEventListener('click', () => this.createSection());
 
-        // Remove Section Modal
         document.getElementById('remove-section-close').addEventListener('click', () => this.closeRemoveSectionModal());
         document.getElementById('confirm-remove-section-btn').addEventListener('click', () => this.removeSection());
 
-        // Change Password Modal
         document.getElementById('change-password-close').addEventListener('click', () => this.closeChangePasswordModal());
         document.getElementById('update-password-btn').addEventListener('click', () => this.updatePassword());
 
-        // Update menu item
         document.getElementById('update-item-btn').addEventListener('click', () => this.updateMenuItem());
     }
 
     switchTab(tabName) {
-        // Update tab triggers
         const triggers = document.querySelectorAll('.tab-trigger');
         triggers.forEach(t => t.classList.remove('active'));
         document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
 
-        // Update tab content
         const contents = document.querySelectorAll('.tab-content');
         contents.forEach(c => c.classList.add('hidden'));
         document.getElementById(`${tabName}-tab`).classList.remove('hidden');
@@ -165,7 +148,6 @@ class SellerDashboard {
         document.getElementById('completed-count').textContent = completedOrders.length;
         document.getElementById('total-sales').textContent = `₱${totalSales.toFixed(2)}`;
 
-        // Add color classes
         document.getElementById('pending-count').className = 'stat-number warning';
         document.getElementById('ready-count').className = 'stat-number accent';
         document.getElementById('completed-count').className = 'stat-number success';
@@ -230,7 +212,6 @@ class SellerDashboard {
             </div>
         `).join('');
 
-        // Add event listeners to order action buttons
         container.querySelectorAll('[data-order-id]').forEach(button => {
             button.addEventListener('click', () => {
                 const orderId = button.dataset.orderId;
@@ -353,7 +334,6 @@ class SellerDashboard {
 
         this.menuItems.push(newItem);
         
-        // Clear form
         document.getElementById('item-name').value = '';
         document.getElementById('item-price').value = '';
         document.getElementById('item-description').value = '';
@@ -361,7 +341,6 @@ class SellerDashboard {
         document.getElementById('item-image').value = '';
         document.getElementById('image-preview').classList.remove('show');
         
-        // Reset sizing
         this.currentSizes = [];
         this.updateSizingDisplay(false);
 
@@ -379,11 +358,9 @@ class SellerDashboard {
         document.getElementById('edit-price').value = item.price;
         document.getElementById('edit-description').value = item.description;
         
-        // Set up sizing for editing
         this.currentSizes = item.sizes ? [...item.sizes] : [];
         this.updateSizingDisplay(true);
         
-        // Show current image if exists
         if (item.image) {
             const preview = document.getElementById('edit-image-preview');
             preview.innerHTML = `<img src="${item.image}" alt="${item.name}">`;
@@ -448,7 +425,6 @@ class SellerDashboard {
         this.updateSizingDisplay(false);
     }
 
-    // Profile Menu Methods
     toggleProfileMenu() {
         const dropdown = document.getElementById('profile-dropdown');
         dropdown.classList.toggle('show');
@@ -478,11 +454,9 @@ class SellerDashboard {
             return;
         }
 
-        // Simulate password update
         this.showToast('Password Updated', 'Your password has been changed successfully.');
         this.closeChangePasswordModal();
         
-        // Clear form
         document.getElementById('current-password').value = '';
         document.getElementById('new-password').value = '';
         document.getElementById('confirm-password').value = '';
@@ -490,15 +464,13 @@ class SellerDashboard {
 
     logout() {
         if (confirm('Are you sure you want to log out?')) {
-            // Simulate logout
             this.showToast('Logged Out', 'You have been logged out successfully.');
             setTimeout(() => {
-                window.location.href = 'login.html'; // Replace with actual login page
+                window.location.href = 'login.html';
             }, 1500);
         }
     }
 
-    // Section Management Methods
     updateCategoryDropdown() {
         const categorySelect = document.getElementById('item-category');
         categorySelect.innerHTML = '';
@@ -510,7 +482,6 @@ class SellerDashboard {
             categorySelect.appendChild(option);
         });
 
-        // Add management options
         const addOption = document.createElement('option');
         addOption.value = 'add-section';
         addOption.textContent = '+ Add Section';
@@ -524,7 +495,7 @@ class SellerDashboard {
 
     openAddSectionModal() {
         document.getElementById('add-section-modal').classList.add('show');
-        document.getElementById('item-category').value = 'Burgers'; // Reset to default
+        document.getElementById('item-category').value = 'Burgers';
     }
 
     closeAddSectionModal() {
@@ -548,7 +519,6 @@ class SellerDashboard {
         this.updateCategoryDropdown();
         this.closeAddSectionModal();
         
-        // Clear form and select new section
         document.getElementById('new-section-name').value = '';
         document.getElementById('item-category').value = sectionName;
         
@@ -567,7 +537,7 @@ class SellerDashboard {
         });
 
         document.getElementById('remove-section-modal').classList.add('show');
-        document.getElementById('item-category').value = 'Burgers'; // Reset to default
+        document.getElementById('item-category').value = 'Burgers'; 
     }
 
     closeRemoveSectionModal() {
@@ -582,13 +552,11 @@ class SellerDashboard {
             return;
         }
 
-        // Check if there are items in this section
         const itemsInSection = this.menuItems.filter(item => item.category === sectionToRemove);
         if (itemsInSection.length > 0) {
             if (!confirm(`There are ${itemsInSection.length} items in this section. Remove anyway?`)) {
                 return;
             }
-            // Remove items in this section
             this.menuItems = this.menuItems.filter(item => item.category !== sectionToRemove);
         }
 
@@ -600,7 +568,6 @@ class SellerDashboard {
         this.showToast('Section Removed', `Section "${sectionToRemove}" has been removed.`);
     }
 
-    // Image Upload Handler
     handleImageUpload(event, previewId) {
         const file = event.target.files[0];
         const preview = document.getElementById(previewId);
@@ -628,13 +595,11 @@ class SellerDashboard {
 
         document.getElementById('toast-container').appendChild(toast);
 
-        // Auto remove after 3 seconds
         setTimeout(() => {
             toast.remove();
         }, 3000);
     }
 
-    // Size Management Methods
     openSizeManagement(isEdit) {
         this.isEditingMode = isEdit;
         document.getElementById('size-management-modal').classList.add('show');
@@ -656,7 +621,6 @@ class SellerDashboard {
             return;
         }
 
-        // Check if size already exists
         if (this.currentSizes.some(size => size.name.toLowerCase() === sizeName.toLowerCase())) {
             this.showToast('Duplicate Size', 'This size already exists.', 'error');
             return;
@@ -664,7 +628,6 @@ class SellerDashboard {
 
         this.currentSizes.push({ name: sizeName, priceAdjustment });
         
-        // Clear inputs
         document.getElementById('size-name-input').value = '';
         document.getElementById('size-price-input').value = '';
         
@@ -732,5 +695,4 @@ class SellerDashboard {
     }
 }
 
-// Initialize the dashboard
 const dashboard = new SellerDashboard();
