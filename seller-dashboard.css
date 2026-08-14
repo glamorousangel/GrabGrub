@@ -1,27 +1,21 @@
-/* CSS Custom Properties (Design System) */
 :root {
-    /* Core Brand Colors */
     --background: hsl(0, 0%, 100%);
     --foreground: hsl(25, 95%, 6%);
     --card: hsl(0, 0%, 100%);
     --card-foreground: hsl(25, 95%, 6%);
     
-    /* Primary - Dark Brown */
     --primary: hsl(25, 95%, 6%);
     --primary-foreground: hsl(0, 0%, 100%);
     --primary-hover: hsl(25, 85%, 8%);
     
-    /* Secondary - Golden Yellow */
     --secondary: hsl(38, 89%, 65%);
     --secondary-foreground: hsl(25, 95%, 6%);
     --secondary-hover: hsl(38, 89%, 60%);
     
-    /* Accent - Taupe */
     --accent: hsl(28, 18%, 49%);
     --accent-foreground: hsl(0, 0%, 100%);
     --accent-hover: hsl(28, 18%, 45%);
     
-    /* Status Colors */
     --success: hsl(120, 60%, 50%);
     --success-foreground: hsl(0, 0%, 98%);
     --warning: hsl(38, 92%, 50%);
@@ -29,29 +23,23 @@
     --destructive: hsl(0, 84.2%, 60.2%);
     --destructive-foreground: hsl(0, 0%, 98%);
     
-    /* Muted */
     --muted: hsl(28, 20%, 95%);
     --muted-foreground: hsl(28, 15%, 40%);
     
-    /* Border & Input */
     --border: hsl(28, 20%, 90%);
     --input: hsl(28, 20%, 95%);
     
-    /* Shadows */
     --shadow-soft: 0 2px 8px hsl(25, 95%, 6%, 0.08);
     --shadow-medium: 0 4px 16px hsl(25, 95%, 6%, 0.12);
     --shadow-strong: 0 8px 32px hsl(25, 95%, 6%, 0.16);
     
-    /* Radius */
     --radius: 0.75rem;
     --radius-lg: 1rem;
     
-    /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Reset & Base */
 * {
     margin: 0;
     padding: 0;
@@ -72,7 +60,6 @@ body {
     padding: 0 1.5rem;
 }
 
-/* Header */
 .header {
     background-color: var(--primary);
     color: var(--primary-foreground);
@@ -95,7 +82,6 @@ body {
     opacity: 0.8;
 }
 
-/* Profile Menu */
 .profile-menu {
     position: relative;
 }
@@ -179,14 +165,12 @@ body {
     }
 }
 
-/* Main Container */
 .main-container {
     padding: 2rem 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Tabs */
 .tabs-container {
     display: flex;
     flex-direction: column;
@@ -233,7 +217,6 @@ body {
     display: none;
 }
 
-/* Stats Grid */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -272,7 +255,6 @@ body {
     color: var(--muted-foreground);
 }
 
-/* Orders Grid */
 .orders-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -298,7 +280,6 @@ body {
     gap: 1rem;
 }
 
-/* Order Card */
 .order-card {
     background-color: var(--card);
     border: 1px solid var(--border);
@@ -386,7 +367,6 @@ body {
     gap: 0.5rem;
 }
 
-/* Badge */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -418,7 +398,6 @@ body {
     color: var(--success-foreground);
 }
 
-/* Card */
 .card {
     background-color: var(--card);
     border: 1px solid var(--border);
@@ -448,7 +427,6 @@ body {
     padding: 1.5rem;
 }
 
-/* Add Item Form */
 .add-item-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -462,14 +440,12 @@ body {
     }
 }
 
-/* Menu Grid */
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
 }
 
-/* Menu Item Card */
 .menu-item {
     background-color: var(--card);
     border: 1px solid var(--border);
@@ -538,7 +514,6 @@ body {
     color: var(--secondary-foreground);
 }
 
-/* Form Elements */
 .input, .textarea, .select {
     width: 100%;
     padding: 0.5rem 0.75rem;
@@ -560,7 +535,6 @@ body {
     resize: vertical;
 }
 
-/* Image Upload */
 .image-upload {
     display: flex;
     flex-direction: column;
@@ -610,7 +584,6 @@ body {
     border-radius: var(--radius);
 }
 
-/* Buttons */
 .btn {
     padding: 0.5rem 1rem;
     border: none;
@@ -691,7 +664,6 @@ body {
     width: 100%;
 }
 
-/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -753,7 +725,6 @@ body {
     gap: 1rem;
 }
 
-/* Toast */
 .toast-container {
     position: fixed;
     top: 1rem;
@@ -803,7 +774,6 @@ body {
     }
 }
 
-/* Sizing Options */
 .sizing-section {
     margin: 1rem 0;
 }
@@ -890,7 +860,6 @@ body {
     opacity: 0.9;
 }
 
-/* Size Management Modal */
 .size-input-section {
     display: grid;
     grid-template-columns: 1fr 120px auto;
@@ -938,7 +907,6 @@ body {
     white-space: nowrap;
 }
 
-/* Empty State */
 .empty-state {
     background-color: var(--card);
     border: 1px solid var(--border);
@@ -948,7 +916,6 @@ body {
     color: var(--muted-foreground);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .add-item-form {
         grid-template-columns: 1fr;
