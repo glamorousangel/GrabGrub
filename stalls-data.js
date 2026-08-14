@@ -1,4 +1,3 @@
-// All stall info lives here
 const stallsData = {
   c: {
     name: "College Canteen",
