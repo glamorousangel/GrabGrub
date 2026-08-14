@@ -5,7 +5,6 @@ const stall = stallsData[stallKey];
 if (!stall) {
   document.body.innerHTML = "<h2>Stall not found!</h2>";
 } else {
-  // === Fill stall info ===
   const stallInfo = document.getElementById("stallInfo");
   stallInfo.innerHTML = `
     <img src="${stall.image}" alt="${stall.name}" class="stall-image" id="stallImage">
@@ -20,7 +19,6 @@ if (!stall) {
     </div>
   `;
 
-  // === Popout ===
   const stallImage = document.getElementById("stallImage");
   const popout = document.getElementById("popout");
   const popoutContent = document.getElementById("popoutContent");
@@ -34,7 +32,6 @@ if (!stall) {
 
   window.addEventListener("click", (e) => { if (e.target === popout) popout.style.display = "none"; });
 
-  // === Menu rendering ===
   const menuSection = document.getElementById("menuSection");
   for (let category in stall.menu) {
     const catDiv = document.createElement("div");
@@ -62,7 +59,6 @@ if (!stall) {
     menuSection.appendChild(catDiv);
   }
 
-  // === Cart Logic ===
   const items = document.querySelectorAll(".menu-item");
   const orderItems = document.querySelector(".order-items");
   const orderTotal = document.getElementById("orderTotal");
@@ -125,15 +121,13 @@ if (!stall) {
     else orderSummary.classList.remove("active");
   }
 
-  // === Place Order Logic (enhanced validation for student info) ===
   let selectedPayment = null;
   const paymentButtons = document.querySelectorAll(".payment-method button");
   const studentNameInput = document.getElementById("studentName");
   const studentIdInput = document.getElementById("studentId");
-  const nameErrorSpan = document.getElementById("nameError"); // For inline message (optional)
-  const idErrorSpan = document.getElementById("idError");     // For inline message (optional)
+  const nameErrorSpan = document.getElementById("nameError");
+  const idErrorSpan = document.getElementById("idError");    
 
-  // Clear errors on user interaction (including messages)
   function clearNameError() {
     studentNameInput.classList.remove("error");
     if (nameErrorSpan) nameErrorSpan.textContent = "";
@@ -146,7 +140,6 @@ if (!stall) {
   studentNameInput.addEventListener("input", clearNameError);
   studentIdInput.addEventListener("input", clearIdError);
 
-  // Payment selection (unchanged)
   paymentButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       paymentButtons.forEach(b => b.classList.remove("active"));
@@ -155,7 +148,6 @@ if (!stall) {
     });
   });
 
-  // Define popup functions (unchanged)
   function showPopup(id, message) {
     const popup = document.getElementById(id);
     if (message) {
@@ -169,18 +161,15 @@ if (!stall) {
     document.getElementById(id).style.display = "none";
   }
 
-  // Place order button
   const placeOrderBtn = document.querySelector(".place-order");
   placeOrderBtn.addEventListener("click", () => {
     const name = studentNameInput.value.trim();
     const id = studentIdInput.value.trim();
     const total = parseFloat(orderTotal.innerText.replace("₱", ""));
 
-    // Clear any previous errors first
     clearNameError();
     clearIdError();
 
-    // Validation for student name
     let nameValid = true;
     let nameErrorMsg = "";
     if (!name) {
@@ -189,12 +178,11 @@ if (!stall) {
     } else if (name.length < 2 || name.length > 50) {
       nameValid = false;
       nameErrorMsg = "Name must be 2-50 characters long.";
-    } else if (!/^[a-zA-Z\s'-]+$/.test(name)) { // Only letters, spaces, hyphens, apostrophes
+    } else if (!/^[a-zA-Z\s'-]+$/.test(name)) {
       nameValid = false;
       nameErrorMsg = "Name can only contain letters, spaces, hyphens, and apostrophes.";
     }
 
-    // Validation for student ID
     let idValid = true;
     let idErrorMsg = "";
     if (!id) {
@@ -203,12 +191,11 @@ if (!stall) {
     } else if (id.length !== 9) {
       idValid = false;
       idErrorMsg = "Student ID must be exactly 9 characters.";
-    } else if (!/^\d{9}$/.test(id)) { // Only digits
+    } else if (!/^\d{9}$/.test(id)) { 
       idValid = false;
       idErrorMsg = "Student ID must contain only numbers.";
     }
 
-    // Apply errors if invalid
     let hasStudentErrors = !nameValid || !idValid;
     if (!nameValid) {
       studentNameInput.classList.add("error");
@@ -219,24 +206,20 @@ if (!stall) {
       if (idErrorSpan) idErrorSpan.textContent = idErrorMsg;
     }
 
-    // If student info is invalid, stop here (user sees red outlines + messages)
     if (hasStudentErrors) {
-      return; // Don't proceed with order
+      return; 
     }
 
-    // Check empty cart (popup, unchanged)
     if (total <= 0) {
       showPopup("errorPopup", "Your cart is empty.");
       return;
     }
 
-    // Check payment method (popup, unchanged)
     if (!selectedPayment) {
       showPopup("errorPopup", "Please select a payment method.");
       return;
     }
 
-    // All validations passed - create and save order (unchanged)
     const orderData = {
       stall: stall.name,
       studentName: name,
@@ -256,7 +239,6 @@ if (!stall) {
     const pickupCode = stallKey.substring(0, 2).toUpperCase() + Math.floor(100 + Math.random() * 900);
     showPopup("successPopup", `Order placed successfully! Your pickup code is ${pickupCode}.`);
 
-    // Optional: Clear cart after successful order
     cart = {};
     updateCart();
 
