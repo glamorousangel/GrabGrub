@@ -1,4 +1,4 @@
-/* General Reset */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,6 @@ body, html {
     scroll-behavior: smooth;
 }
 
-/* Background Image with Gradient */
 .bg img {
     position: absolute;
     top: 0;
@@ -34,17 +33,16 @@ body, html {
     z-index: -1;
 }
 
-/* Navigation Bar */
 .nav {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 70px;                     /* fixed height */
-    padding: 0 50px;                  /* only left/right padding */
+    height: 70px;                     
+    padding: 0 50px;                
     display: flex;
-    justify-content: space-between;   /* brand left, links right */
-    align-items: center;              /* vertical centering */
+    justify-content: space-between;  
+    align-items: center;           
     transition: background 0.3s, height 0.3s;
     z-index: 10;
     box-sizing: border-box;
@@ -84,7 +82,6 @@ body, html {
     color: gold;
 }
 
-/* Change nav bg on scroll */
 .nav.scrolled {
     background-color: white;
     height: 70px;
@@ -98,7 +95,6 @@ body, html {
     color: #333;
 }
 
-/* Section Top */
 .top {
     height: 100vh;
     display: flex;
@@ -121,7 +117,6 @@ body, html {
     color: #1b0c03;
 }
 
-/* Stalls Section */
 #stalls {
     background: #fff;
     padding: 100px 50px;
@@ -192,7 +187,6 @@ body, html {
     color: #888;
 }
 
-/* Footer */
 #footer {
     background: #140d09;
     color: #fff;
@@ -312,7 +306,6 @@ body, html {
     color: #f5b85c;
 }
 
-/* Mobile adjustments */
 @media (max-width: 768px) {
   .nav {
     height: 60px;
@@ -333,33 +326,28 @@ body, html {
     white-space: nowrap;
   }
 
-  /* Logo */
   .top .logo img {
     width: 80%;
     max-width: 300px;
     margin-bottom: 30px;
   }
 
-  /* Quote text */
   .top .content p {
     font-size: 16px;
     margin-top: -50px;
   }
 
-  /* Background image scaling */
   .bg img {
     height: 100vh;
     object-fit: cover;
   }
 
-  /* Footer spacing */
   .footer-forms, .footer-info {
     flex-direction: column;
     gap: 20px;
   }
 }
 
-/* very small devices */
 @media (max-width: 420px) {
   .nav {
     height: 56px;
@@ -380,22 +368,20 @@ body, html {
   }
 }
 
-/* === Fixed Error Handling (Green Success, Red Errors) === */
 .form-container input.error,
 .form-container textarea.error {
-  border: 2px solid #e74c3c; /* Red for errors */
-  background-color: #fdf2f2; /* Light red bg */
+  border: 2px solid #e74c3c; 
+  background-color: #fdf2f2; 
   transition: all 0.2s ease;
 }
 
 .form-container input.success,
 .form-container textarea.success {
-  border: 2px solid #2ecc71; /* Green for success (reverted from orange/gold) */
-  background-color: #f0fff5; /* Light green bg */
+  border: 2px solid #2ecc71;
+  background-color: #f0fff5;
   transition: all 0.2s ease;
 }
 
-/* Error Messages (Inline, Below Inputs) */
 .error-message {
   color: #e74c3c;
   font-size: 13px;
@@ -414,7 +400,7 @@ body, html {
 }
 
 .error-message::before {
-  content: '⚠️'; /* Simple warning icon */
+  content: '⚠️';
   position: absolute;
   left: 0;
   top: 0;
@@ -437,7 +423,6 @@ body, html {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobile Fixes for Errors */
 @media (max-width: 768px) {
   .error-message {
     font-size: 12px;
@@ -445,7 +430,6 @@ body, html {
   }
 }
 
-/* --- Popup --- */
 .popup {
   position: fixed;
   top: 0; 
@@ -466,18 +450,17 @@ body, html {
   opacity: 1;
 }
 
-/* --- Fullscreen Centered Popup --- */
 #success-popup {
-  display: none;               /* hidden by default */
-  position: fixed;             /* always floats */
+  display: none;              
+  position: fixed;            
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* dark overlay */
-  justify-content: center;     /* center horizontally */
-  align-items: center;         /* center vertically */
-  z-index: 9999;               /* always on top */
+  background: rgba(0, 0, 0, 0.4); 
+  justify-content: center;   
+  align-items: center;       
+  z-index: 9999;              
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -514,7 +497,6 @@ body, html {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* --- Info Popup --- */
 #info-popup {
   display: none;
   position: fixed;
