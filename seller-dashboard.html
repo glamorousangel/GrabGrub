@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="seller-dashboard.css">
 </head>
 <body>
-    <!-- Header -->
     <div class="header">
         <div class="container">
             <div class="header-content">
@@ -53,16 +52,13 @@
     </div>
 
     <div class="main-container">
-        <!-- Tabs -->
         <div class="tabs-container">
             <div class="tabs-list">
                 <button class="tab-trigger active" data-tab="orders">Order Management</button>
                 <button class="tab-trigger" data-tab="menu">Menu Management</button>
             </div>
 
-            <!-- Orders Tab -->
             <div class="tab-content" id="orders-tab">
-                <!-- Stats Cards -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-number" id="pending-count">0</div>
@@ -82,29 +78,22 @@
                     </div>
                 </div>
 
-                <!-- Orders List -->
                 <div class="orders-grid">
-                    <!-- Active Orders -->
                     <div class="orders-column">
                         <h3>Active Orders</h3>
                         <div id="active-orders" class="orders-list">
-                            <!-- Orders will be populated by JavaScript -->
                         </div>
                     </div>
 
-                    <!-- Ready Orders -->
                     <div class="orders-column">
                         <h3>Ready for Pickup</h3>
                         <div id="ready-orders" class="orders-list">
-                            <!-- Orders will be populated by JavaScript -->
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Menu Tab -->
             <div class="tab-content hidden" id="menu-tab">
-                <!-- Add New Item -->
                 <div class="card">
                     <div class="card-header">
                         <h3>
@@ -153,18 +142,14 @@
                     </div>
                 </div>
 
-                <!-- Menu Items -->
                 <div id="menu-items" class="menu-grid">
-                    <!-- Menu items will be populated by JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- Edit Modal -->
     <div id="edit-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -203,7 +188,6 @@
         </div>
     </div>
 
-    <!-- Add Section Modal -->
     <div id="add-section-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -217,7 +201,6 @@
         </div>
     </div>
 
-    <!-- Remove Section Modal -->
     <div id="remove-section-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -233,7 +216,6 @@
         </div>
     </div>
 
-    <!-- Change Password Modal -->
     <div id="change-password-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -249,7 +231,6 @@
         </div>
     </div>
 
-    <!-- Size Management Modal -->
     <div id="size-management-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -266,7 +247,6 @@
                 <div class="size-list-section">
                     <h4>Current Sizes:</h4>
                     <div id="current-sizes-list" class="size-list">
-                        <!-- Size items will be populated here -->
                     </div>
                 </div>
                 
